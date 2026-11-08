@@ -24,10 +24,14 @@ enum MegaClientError: LocalizedError {
 
 final class MegaClient {
     private let http: ProxyHTTPClient
+    private let settings: GGSettings
     private static let apiOrigin = "https://g.api.mega.co.nz/cs"
     private static let requestID = RequestCounter()
 
-    init(settings: GGSettings) { self.http = ProxyHTTPClient(settings: settings) }
+    init(settings: GGSettings) {
+        self.settings = settings
+        self.http = ProxyHTTPClient(settings: settings)
+    }
 
     func fetchPublicNodes(from rawLink: String) async throws -> [ImportedMegaFile] {
         let parsed = try Self.parsePublicLink(rawLink)
@@ -147,8 +151,14 @@ final class MegaClient {
         if !manager.fileExists(atPath: partialURL.path) {
             manager.createFile(atPath: partialURL.path, contents: nil)
         }
-        let existing = (try? manager.attributesOfItem(atPath: partialURL.path)[.size] as? NSNumber)?.uint64Value ?? 0
-        if existing >= expectedSize { return }
+        var existing = (try? manager.attributesOfItem(atPath: partialURL.path)[.size] as? NSNumber)?.uint64Value ?? 0
+        if existing == expectedSize { return }
+        if existing > expectedSize {
+            let reset = try FileHandle(forWritingTo: partialURL)
+            try reset.truncate(atOffset: 0)
+            try reset.close()
+            existing = 0
+        }
         let offset = existing > 0 ? existing.saturatingSubtract(1_048_576) : 0
         if offset < existing {
             let handle = try FileHandle(forWritingTo: partialURL)
@@ -156,7 +166,7 @@ final class MegaClient {
             try handle.close()
         }
         var request = URLRequest(url: url)
-        request.timeoutInterval = 60
+        request.timeoutInterval = settings.timeoutSeconds
         if offset > 0 { request.setValue("bytes=\(offset)-", forHTTPHeaderField: "Range") }
         try await http.download(request: request, encryptedPartialURL: partialURL,
                                 remoteSize: expectedSize, resumeOffset: offset, progress: progress)

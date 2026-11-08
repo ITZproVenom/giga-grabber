@@ -1,5 +1,5 @@
 import Foundation
-import CFNetwork
+import Network
 
 enum GGNetworkError: LocalizedError {
     case invalidProxy(String)
@@ -48,22 +48,25 @@ struct ProxyEndpoint: Hashable {
                              username: c.user, password: c.password)
     }
 
-    var connectionDictionary: [AnyHashable: Any] {
-        let isSOCKS = (scheme == "socks5" || scheme == "socks5h")
-        var result: [AnyHashable: Any] = [:]
-        if isSOCKS {
-            result["SOCKSEnable"] = 1
-            result["SOCKSProxy"] = host
-            result["SOCKSPort"] = port
-        } else {
-            result["HTTPEnable"] = 1
-            result["HTTPProxy"] = host
-            result["HTTPPort"] = port
-            result["HTTPSEnable"] = 1
-            result["HTTPSProxy"] = host
-            result["HTTPSPort"] = port
+    var networkConfiguration: ProxyConfiguration {
+        let proxyPort = NWEndpoint.Port(rawValue: UInt16(port))!
+        let endpoint = NWEndpoint.hostPort(host: .name(host, nil), port: proxyPort)
+        var configuration: ProxyConfiguration
+        switch scheme {
+        case "http":
+            configuration = ProxyConfiguration(httpCONNECTProxy: endpoint, tlsOptions: nil)
+        case "https":
+            configuration = ProxyConfiguration(httpCONNECTProxy: endpoint,
+                                                tlsOptions: NWProtocolTLS.Options())
+        default:
+            configuration = ProxyConfiguration(socksv5Proxy: endpoint)
         }
-        return result
+        if let username {
+            configuration.applyCredential(username: username, password: password ?? "")
+        }
+        // Never fall back to a direct connection if the selected proxy fails.
+        configuration.allowFailover = false
+        return configuration
     }
 
     var credential: URLCredential? {
@@ -112,11 +115,10 @@ final class ProxyHTTPClient {
     private func configuration(for endpoint: ProxyEndpoint?) -> URLSessionConfiguration {
         let configuration = URLSessionConfiguration.ephemeral
         configuration.timeoutIntervalForRequest = settings.timeoutSeconds
-        configuration.timeoutIntervalForResource = max(settings.timeoutSeconds * 4, 120)
         configuration.httpMaximumConnectionsPerHost = 8
         configuration.urlCache = nil
         configuration.requestCachePolicy = .reloadIgnoringLocalCacheData
-        if let endpoint { configuration.connectionProxyDictionary = endpoint.connectionDictionary }
+        if let endpoint { configuration.proxyConfigurations = [endpoint.networkConfiguration] }
         return configuration
     }
 

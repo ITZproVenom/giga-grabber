@@ -12,6 +12,11 @@ final class DownloadManager: ObservableObject {
             if let data = try? JSONEncoder().encode(settings) {
                 UserDefaults.standard.set(data, forKey: "GigaGrabber.settings")
             }
+            if settings.persistDownloadSessions {
+                persistSession()
+            } else {
+                try? FileManager.default.removeItem(at: sessionURL)
+            }
         }
     }
     @Published var destinationName = "Downloads"
@@ -271,8 +276,12 @@ final class DownloadManager: ObservableObject {
                     }
                     if Task.isCancelled { throw CancellationError() }
                     guard let iv = item.node.aesIV else { throw MegaClientError.invalidKey }
-                    try MegaCrypto.decryptCTRFile(from: encryptedURL, to: plainURL,
-                                                   key: item.node.aesKey, iv: iv)
+                    let decryptionKey = item.node.aesKey
+                    let decryptionIV = iv
+                    try await Task.detached(priority: .utility) {
+                        try MegaCrypto.decryptCTRFile(from: encryptedURL, to: plainURL,
+                                                      key: decryptionKey, iv: decryptionIV)
+                    }.value
                     let size = (try FileManager.default.attributesOfItem(atPath: plainURL.path)[.size] as? NSNumber)?.uint64Value ?? 0
                     guard size == item.node.size else {
                         throw URLError(.cannotDecodeContentData, userInfo: [

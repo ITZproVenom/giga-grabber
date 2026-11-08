@@ -19,6 +19,7 @@
         B00000000000000000000013 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A00000000000000000000013 /* CFNetwork.framework */; };
         B00000000000000000000014 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A00000000000000000000014 /* Foundation.framework */; };
         B00000000000000000000015 /* AppIntents.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A00000000000000000000016 /* AppIntents.framework */; };
+        B00000000000000000000017 /* Network.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A00000000000000000000018 /* Network.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,6 +36,7 @@
         A00000000000000000000013 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
         A00000000000000000000014 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
         A00000000000000000000016 /* AppIntents.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppIntents.framework; path = System/Library/Frameworks/AppIntents.framework; sourceTree = SDKROOT; };
+        A00000000000000000000018 /* Network.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Network.framework; path = System/Library/Frameworks/Network.framework; sourceTree = SDKROOT; };
         A00000000000000000000015 /* GigaGrabber.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GigaGrabber.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -48,6 +50,7 @@
                 B00000000000000000000013 /* CFNetwork.framework in Frameworks */,
                 B00000000000000000000014 /* Foundation.framework in Frameworks */,
                 B00000000000000000000015 /* AppIntents.framework in Frameworks */,
+                B00000000000000000000017 /* Network.framework in Frameworks */,
             );
             runOnlyForDeploymentPostprocessing = 0;
         };
@@ -86,6 +89,7 @@
                 A00000000000000000000013 /* CFNetwork.framework */,
                 A00000000000000000000014 /* Foundation.framework */,
                 A00000000000000000000016 /* AppIntents.framework */,
+                A00000000000000000000018 /* Network.framework */,
             );
             name = Frameworks;
             sourceTree = "<group>";

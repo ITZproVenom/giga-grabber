@@ -39,7 +39,7 @@ No third-party Swift packages are required. The project uses SwiftUI, Foundation
 
 ## Proxy behavior
 
-Proxy configuration is applied to the URLSession that performs the request, not merely displayed in Settings. In Random mode, the proxy is chosen independently for each API request and each file-transfer response. If a transfer fails and is retried, the next attempt selects again.
+Proxy configuration is applied to the URLSession that performs the request using Apple's Network framework `ProxyConfiguration`, not merely displayed in Settings. HTTP proxies use HTTP CONNECT, HTTPS proxy endpoints use TLS to the proxy, and SOCKSv5 endpoints use Apple's SOCKSv5 configuration. Proxy credentials are passed through the proxy configuration. In Random mode, the proxy is chosen independently for each API request and each file-transfer response. If a transfer fails and is retried, the next attempt selects again. The selected proxy has failover-to-direct disabled.
 
 A single HTTP response stream remains pinned to its selected proxy for that response. The app does not switch proxy in the middle of a TCP/HTTP stream. A MEGA HTTP 509 bandwidth-limit response pauses the transfer, consistent with the original worker behavior. The original project warns against proxy/VPN use to bypass MEGA's terms or account limits.
 
