@@ -259,7 +259,7 @@ struct TransferRow: View {
                 Image(systemName: icon)
                     .font(.title2)
                     .foregroundStyle(item.status == .completed ? .green :
-                                     item.status == .failed ? .orange : .tint)
+                                     item.status == .failed ? .orange : Color.accentColor)
                 VStack(alignment: .leading, spacing: 3) {
                     Text(item.node.name).font(.headline).lineLimit(2)
                     Text(item.relativeDirectory.isEmpty ? statusText :
