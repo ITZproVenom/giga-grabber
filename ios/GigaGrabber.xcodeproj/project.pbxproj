@@ -1,0 +1,252 @@
+// !$*UTF8*$!
+{
+    archiveVersion = 1;
+    classes = {
+    };
+    objectVersion = 56;
+    objects = {
+
+/* Begin PBXBuildFile section */
+        B00000000000000000000001 /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000001 /* App.swift */; };
+        B00000000000000000000002 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000002 /* Models.swift */; };
+        B00000000000000000000003 /* ProxyHTTP.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000003 /* ProxyHTTP.swift */; };
+        B00000000000000000000004 /* MegaClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000004 /* MegaClient.swift */; };
+        B00000000000000000000005 /* DownloadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000005 /* DownloadManager.swift */; };
+        B00000000000000000000006 /* Views.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000006 /* Views.swift */; };
+        B00000000000000000000007 /* Shortcuts.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000008 /* Shortcuts.swift */; };
+        B00000000000000000000011 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A00000000000000000000011 /* SwiftUI.framework */; };
+        B00000000000000000000012 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A00000000000000000000012 /* UIKit.framework */; };
+        B00000000000000000000013 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A00000000000000000000013 /* CFNetwork.framework */; };
+        B00000000000000000000014 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A00000000000000000000014 /* Foundation.framework */; };
+        B00000000000000000000015 /* AppIntents.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A00000000000000000000016 /* AppIntents.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+        A00000000000000000000001 /* App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
+        A00000000000000000000002 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
+        A00000000000000000000003 /* ProxyHTTP.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProxyHTTP.swift; sourceTree = "<group>"; };
+        A00000000000000000000004 /* MegaClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MegaClient.swift; sourceTree = "<group>"; };
+        A00000000000000000000005 /* DownloadManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadManager.swift; sourceTree = "<group>"; };
+        A00000000000000000000006 /* Views.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views.swift; sourceTree = "<group>"; };
+        A00000000000000000000008 /* Shortcuts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shortcuts.swift; sourceTree = "<group>"; };
+        A00000000000000000000007 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+        A00000000000000000000011 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+        A00000000000000000000012 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+        A00000000000000000000013 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+        A00000000000000000000014 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+        A00000000000000000000016 /* AppIntents.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppIntents.framework; path = System/Library/Frameworks/AppIntents.framework; sourceTree = SDKROOT; };
+        A00000000000000000000015 /* GigaGrabber.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GigaGrabber.app; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+        C00000000000000000000001 /* Frameworks */ = {
+            isa = PBXFrameworksBuildPhase;
+            buildActionMask = 2147483647;
+            files = (
+                B00000000000000000000011 /* SwiftUI.framework in Frameworks */,
+                B00000000000000000000012 /* UIKit.framework in Frameworks */,
+                B00000000000000000000013 /* CFNetwork.framework in Frameworks */,
+                B00000000000000000000014 /* Foundation.framework in Frameworks */,
+                B00000000000000000000015 /* AppIntents.framework in Frameworks */,
+            );
+            runOnlyForDeploymentPostprocessing = 0;
+        };
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+        D00000000000000000000001 = {
+            isa = PBXGroup;
+            children = (
+                D00000000000000000000002 /* GigaGrabber */,
+                D00000000000000000000003 /* Frameworks */,
+                D00000000000000000000004 /* Products */,
+            );
+            sourceTree = "<group>";
+        };
+        D00000000000000000000002 /* GigaGrabber */ = {
+            isa = PBXGroup;
+            path = GigaGrabber;
+            sourceTree = "<group>";
+            children = (
+                A00000000000000000000001 /* App.swift */,
+                A00000000000000000000002 /* Models.swift */,
+                A00000000000000000000003 /* ProxyHTTP.swift */,
+                A00000000000000000000004 /* MegaClient.swift */,
+                A00000000000000000000005 /* DownloadManager.swift */,
+                A00000000000000000000006 /* Views.swift */,
+                A00000000000000000000008 /* Shortcuts.swift */,
+                A00000000000000000000007 /* Info.plist */,
+            );
+        };
+        D00000000000000000000003 /* Frameworks */ = {
+            isa = PBXGroup;
+            children = (
+                A00000000000000000000011 /* SwiftUI.framework */,
+                A00000000000000000000012 /* UIKit.framework */,
+                A00000000000000000000013 /* CFNetwork.framework */,
+                A00000000000000000000014 /* Foundation.framework */,
+                A00000000000000000000016 /* AppIntents.framework */,
+            );
+            name = Frameworks;
+            sourceTree = "<group>";
+        };
+        D00000000000000000000004 /* Products */ = {
+            isa = PBXGroup;
+            children = ( A00000000000000000000015 /* GigaGrabber.app */, );
+            name = Products;
+            sourceTree = "<group>";
+        };
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+        E00000000000000000000001 /* GigaGrabber */ = {
+            isa = PBXNativeTarget;
+            buildConfigurationList = F00000000000000000000002 /* Build configuration list for PBXNativeTarget "GigaGrabber" */;
+            buildPhases = (
+                C00000000000000000000002 /* Sources */,
+                C00000000000000000000001 /* Frameworks */,
+                C00000000000000000000003 /* Resources */,
+            );
+            buildRules = ();
+            dependencies = ();
+            name = GigaGrabber;
+            productName = GigaGrabber;
+            productReference = A00000000000000000000015 /* GigaGrabber.app */;
+            productType = "com.apple.product-type.application";
+        };
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+        E00000000000000000000002 /* Project object */ = {
+            isa = PBXProject;
+            attributes = {
+                BuildIndependentTargetsInParallel = 1;
+                LastUpgradeCheck = 1600;
+                TargetAttributes = {
+                    E00000000000000000000001 = {
+                        CreatedOnToolsVersion = 16.0;
+                    };
+                };
+            };
+            buildConfigurationList = F00000000000000000000001 /* Build configuration list for PBXProject "GigaGrabber" */;
+            compatibilityVersion = "Xcode 14.0";
+            developmentRegion = en;
+            hasScannedForEncodings = 0;
+            knownRegions = (en, Base,);
+            mainGroup = D00000000000000000000001;
+            productRefGroup = D00000000000000000000004 /* Products */;
+            projectDirPath = "";
+            projectRoot = "";
+            targets = ( E00000000000000000000001 /* GigaGrabber */, );
+        };
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+        C00000000000000000000003 /* Resources */ = {
+            isa = PBXResourcesBuildPhase;
+            buildActionMask = 2147483647;
+            files = ();
+            runOnlyForDeploymentPostprocessing = 0;
+        };
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+        C00000000000000000000002 /* Sources */ = {
+            isa = PBXSourcesBuildPhase;
+            buildActionMask = 2147483647;
+            files = (
+                B00000000000000000000001 /* App.swift in Sources */,
+                B00000000000000000000002 /* Models.swift in Sources */,
+                B00000000000000000000003 /* ProxyHTTP.swift in Sources */,
+                B00000000000000000000004 /* MegaClient.swift in Sources */,
+                B00000000000000000000005 /* DownloadManager.swift in Sources */,
+                B00000000000000000000006 /* Views.swift in Sources */,
+                B00000000000000000000007 /* Shortcuts.swift in Sources */,
+            );
+            runOnlyForDeploymentPostprocessing = 0;
+        };
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+        F00000000000000000000011 /* Debug project configuration */ = {
+            isa = XCBuildConfiguration;
+            buildSettings = {
+                CLANG_ENABLE_MODULES = YES;
+                SDKROOT = iphoneos;
+                SWIFT_VERSION = 5.0;
+            };
+            name = Debug;
+        };
+        F00000000000000000000012 /* Release project configuration */ = {
+            isa = XCBuildConfiguration;
+            buildSettings = {
+                CLANG_ENABLE_MODULES = YES;
+                SDKROOT = iphoneos;
+                SWIFT_VERSION = 5.0;
+            };
+            name = Release;
+        };
+        F00000000000000000000021 /* Debug target configuration */ = {
+            isa = XCBuildConfiguration;
+            buildSettings = {
+                CODE_SIGN_STYLE = Automatic;
+                CURRENT_PROJECT_VERSION = 1;
+                GENERATE_INFOPLIST_FILE = NO;
+                INFOPLIST_FILE = GigaGrabber/Info.plist;
+                IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+                LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+                MARKETING_VERSION = 1.3.6;
+                PRODUCT_BUNDLE_IDENTIFIER = com.itzprovenom.gigagrabber;
+                PRODUCT_NAME = "$(TARGET_NAME)";
+                SDKROOT = iphoneos;
+                SWIFT_VERSION = 5.0;
+                SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+                TARGETED_DEVICE_FAMILY = "1,2";
+            };
+            name = Debug;
+        };
+        F00000000000000000000022 /* Release target configuration */ = {
+            isa = XCBuildConfiguration;
+            buildSettings = {
+                CODE_SIGN_STYLE = Automatic;
+                CURRENT_PROJECT_VERSION = 1;
+                GENERATE_INFOPLIST_FILE = NO;
+                INFOPLIST_FILE = GigaGrabber/Info.plist;
+                IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+                LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+                MARKETING_VERSION = 1.3.6;
+                PRODUCT_BUNDLE_IDENTIFIER = com.itzprovenom.gigagrabber;
+                PRODUCT_NAME = "$(TARGET_NAME)";
+                SDKROOT = iphoneos;
+                SWIFT_VERSION = 5.0;
+                SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+                TARGETED_DEVICE_FAMILY = "1,2";
+                SWIFT_OPTIMIZATION_LEVEL = "-O";
+            };
+            name = Release;
+        };
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+        F00000000000000000000001 /* Build configuration list for PBXProject "GigaGrabber" */ = {
+            isa = XCConfigurationList;
+            buildConfigurations = (
+                F00000000000000000000011 /* Debug project configuration */,
+                F00000000000000000000012 /* Release project configuration */,
+            );
+            defaultConfigurationIsVisible = 0;
+            defaultConfigurationName = Release;
+        };
+        F00000000000000000000002 /* Build configuration list for PBXNativeTarget "GigaGrabber" */ = {
+            isa = XCConfigurationList;
+            buildConfigurations = (
+                F00000000000000000000021 /* Debug target configuration */,
+                F00000000000000000000022 /* Release target configuration */,
+            );
+            defaultConfigurationIsVisible = 0;
+            defaultConfigurationName = Release;
+        };
+/* End XCConfigurationList section */
+    };
+    rootObject = E00000000000000000000002 /* Project object */;
+}
