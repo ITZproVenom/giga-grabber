@@ -1,6 +1,10 @@
 # Giga Grabber
 A fast and stable [Mega](https://mega.nz) downloader using Reqwest for HTTP and Iced for the UI. Learn more on [chanchan.dev](https://chanchan.dev/work/giga-grabber).
 
+## iOS app
+
+A native SwiftUI port is maintained in [`ios/`](ios/README.md). It includes MEGA file and shared-folder downloads, encrypted transfer handling, concurrent workers, resumable sessions, and the full proxy mode settings. See the [iOS build and feature guide](ios/README.md) for Xcode instructions.
+
 ## Features
 - Concurrent downloads with customizable concurrency budget to optimize performance across all file sizes.
 - Exponential backoff & timeouts, per-file cancellation & pausing, and other quality of life features.
