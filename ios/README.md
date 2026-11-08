@@ -11,7 +11,7 @@ Native SwiftUI port of [Giga Grabber](https://github.com/chanderlud/giga-grabber
 - Set your Apple Developer Team and a unique bundle identifier under Signing & Capabilities
 - Build and run
 
-No third-party Swift packages are required. The project uses SwiftUI, Foundation, URLSession, AppIntents, UIKit, and CommonCrypto.
+No third-party Swift packages are required. The project uses SwiftUI, Foundation, URLSession, AppIntents, UIKit, CommonCrypto, and Apple's Network framework for iOS 17+ proxy configuration.
 
 ## Ported feature set
 
@@ -32,7 +32,7 @@ No third-party Swift packages are required. The project uses SwiftUI, Foundation
 | Themes | Native system appearance with a matching accent palette for the bundled theme names |
 | Progress bars and file sizes | Configurable transfer-row progress and size display |
 | Update checking | Optional GitHub release check for the iOS fork |
-| Desktop CLI for a MEGA URL | App Intent / Shortcuts action that opens the link in the iOS app |
+| Desktop CLI for a MEGA URL | App Intent / Shortcuts action plus a `gigagrabber://download` automation URL with CLI-equivalent settings |
 | Desktop save path | iOS folder picker with a security-scoped bookmark |
 | Desktop file chooser | Native folder-tree selection screen |
 | Desktop themes and settings page | Native Settings form |
@@ -47,7 +47,9 @@ A single HTTP response stream remains pinned to its selected proxy for that resp
 
 iOS does not allow an ordinary foreground app to keep unrestricted worker processes running after suspension. Giga Grabber uses an iOS background-task grace period while the system permits it, persists the queue, and pauses transfers when that time expires. Restored transfers appear paused and require Resume. This is the iOS lifecycle equivalent of the desktop application's graceful session restoration, not a promise of indefinite background execution.
 
-The original CLI is exposed as an App Shortcut instead of a shell executable. Open a public MEGA link with the Giga Grabber Shortcut to bring the app to its link-import screen. The desktop GUI is replaced by native iPhone/iPad screens.
+The original CLI cannot run as a normal process inside an iOS app sandbox. Its options are accepted through a `gigagrabber://download` URL for Shortcuts and other automation, while an App Intent can receive a MEGA link and queue it directly. URL query parameters: `url`, `max-workers`, `concurrency-budget`, `max-retries`, `timeout`, `min-retry-delay`, `max-retry-delay`, `proxy-mode` (`none`, `single`, `random`) and `proxies` (URLs separated by `|`). Percent-encode the URL values. The desktop GUI is replaced by native iPhone/iPad screens.
+
+The proxy-list importer accepts one proxy URL per line in a `.txt` file; blank lines and lines beginning with `#` are ignored. Settings include a reset-to-defaults action. Download-session persistence is off by default, matching the desktop application's default.
 
 ## Source layout
 

@@ -160,6 +160,10 @@ final class DownloadManager: ObservableObject {
         persistSession()
     }
 
+    func resetSettings() {
+        settings = GGSettings()
+    }
+
     func stopWorkers() {
         let pendingIDs = transfers
             .filter { tasks[$0.id] == nil && $0.status != .completed }
@@ -314,6 +318,7 @@ final class DownloadManager: ObservableObject {
                     throw CancellationError()
                 } catch let network as GGNetworkError {
                     if case .outOfBandwidth = network {
+                        pauseOtherTransfers(excluding: id)
                         update(id) {
                             $0.status = .paused
                             $0.speedBytesPerSecond = 0
@@ -368,6 +373,20 @@ final class DownloadManager: ObservableObject {
             }
             persistSession()
         }
+    }
+
+    private func pauseOtherTransfers(excluding excludedID: UUID) {
+        for index in transfers.indices {
+            let id = transfers[index].id
+            guard id != excludedID,
+                  transfers[index].status == .queued ||
+                  transfers[index].status == .downloading ||
+                  transfers[index].status == .retrying else { continue }
+            transfers[index].status = .paused
+            transfers[index].speedBytesPerSecond = 0
+            tasks[id]?.cancel()
+        }
+        persistSession()
     }
 
     private func transfer(_ id: UUID) -> GGTransfer? {

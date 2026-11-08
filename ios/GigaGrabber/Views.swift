@@ -26,9 +26,32 @@ struct ContentView: View {
         .preferredColorScheme(manager.settings.preferredColorScheme)
         .onOpenURL { url in
             if url.scheme == "gigagrabber",
-               let components = URLComponents(url: url, resolvingAgainstBaseURL: false),
-               let value = components.queryItems?.first(where: { $0.name == "url" })?.value {
-                incomingLink = value
+               let components = URLComponents(url: url, resolvingAgainstBaseURL: false) {
+                let query = components.queryItems ?? []
+                func value(_ name: String) -> String? {
+                    query.first(where: { $0.name == name })?.value
+                }
+                var updated = manager.settings
+                if let raw = value("max-workers"), let number = Int(raw) { updated.maxWorkers = number }
+                if let raw = value("concurrency-budget"), let number = Int(raw) { updated.concurrencyBudget = number }
+                if let raw = value("max-retries"), let number = Int(raw) { updated.maxRetries = number }
+                if let raw = value("timeout"), let number = Double(raw) { updated.timeoutSeconds = number }
+                if let raw = value("min-retry-delay"), let number = Double(raw) { updated.minRetryDelaySeconds = number }
+                if let raw = value("max-retry-delay"), let number = Double(raw) { updated.maxRetryDelaySeconds = number }
+                if let raw = value("proxy-mode") {
+                    switch raw.lowercased() {
+                    case "none": updated.proxyMode = .none
+                    case "single": updated.proxyMode = .single
+                    case "random": updated.proxyMode = .random
+                    default: break
+                    }
+                }
+                if let raw = value("proxies") {
+                    updated.proxies = raw.split(separator: "|").map(String.init)
+                }
+                updated.normalize()
+                manager.settings = updated
+                incomingLink = value("url") ?? url.absoluteString
             } else {
                 incomingLink = url.absoluteString
             }
@@ -70,7 +93,7 @@ extension GGSettings {
         switch theme {
         case "System": return nil
         case "Light", "Solarized Light", "Gruvbox Light", "Catppuccin Latte",
-             "Tokyo Night Light", "Kanagawa Lotus", "Vanilla": return .light
+             "Tokyo Night Light", "Kanagawa Lotus": return .light
         default: return .dark
         }
     }
@@ -312,6 +335,7 @@ private struct ImportedGroup: Identifiable {
     let directory: String
     let files: [ImportedMegaFile]
     var id: String { directory }
+    var depth: Int { directory.split(separator: "/").count }
 }
 
 struct ImportView: View {
@@ -325,8 +349,18 @@ struct ImportView: View {
     @State private var didResolve = false
 
     private var groupedFiles: [ImportedGroup] {
-        let groups = Dictionary(grouping: files, by: \.relativeDirectory)
-        return groups.keys.sorted().map { ImportedGroup(directory: $0, files: groups[$0] ?? []) }
+        var directories = Set(files.map(\.relativeDirectory))
+        for file in files where !file.relativeDirectory.isEmpty {
+            var parts = file.relativeDirectory.split(separator: "/")
+            while !parts.isEmpty {
+                directories.insert(parts.map(String.init).joined(separator: "/"))
+                parts.removeLast()
+            }
+        }
+        return directories.sorted().map { directory in
+            ImportedGroup(directory: directory,
+                          files: files.filter { $0.relativeDirectory == directory })
+        }
     }
 
     var body: some View {
@@ -378,12 +412,17 @@ struct ImportView: View {
                                         .font(.subheadline.weight(.semibold)).lineLimit(2)
                                     Spacer()
                                     Button("Select folder") {
-                                        let ids = Set(group.files.map(\.id))
+                                        let prefix = group.directory + "/"
+                                        let ids = Set(files.filter {
+                                            $0.relativeDirectory == group.directory ||
+                                            $0.relativeDirectory.hasPrefix(prefix)
+                                        }.map(\.id))
                                         if ids.isSubset(of: selected) { selected.subtract(ids) }
                                         else { selected.formUnion(ids) }
                                     }
                                     .font(.caption)
                                 }
+                                .padding(.leading, CGFloat(max(0, group.depth - 1)) * 10)
                             }
                             ForEach(group.files) { file in
                                 Button {
@@ -405,7 +444,7 @@ struct ImportView: View {
                                     .contentShape(Rectangle())
                                 }
                                 .buttonStyle(.plain)
-                                .padding(.leading, group.directory.isEmpty ? 0 : 16)
+                                .padding(.leading, CGFloat(group.depth) * 10)
                             }
                         }
                     } footer: {
@@ -485,6 +524,7 @@ struct SettingsView: View {
     @EnvironmentObject private var manager: DownloadManager
     @State private var proxyInput = ""
     @State private var showProxyError = false
+    @State private var isImportingProxyFile = false
 
     var body: some View {
         NavigationStack {
@@ -568,6 +608,11 @@ struct SettingsView: View {
                                 Button("Add") { addRandomProxy() }
                                     .disabled(proxyInput.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
                             }
+                            Button {
+                                isImportingProxyFile = true
+                            } label: {
+                                Label("Import proxy list from .txt", systemImage: "doc.text")
+                            }
                         }
                     } else {
                         Text("Direct connection. Configured proxy addresses are retained for later use.")
@@ -608,6 +653,15 @@ struct SettingsView: View {
                     }
                 }
 
+                Section {
+                    Button("Reset all settings", role: .destructive) {
+                        manager.resetSettings()
+                        proxyInput = ""
+                    }
+                } footer: {
+                    Text("Restores worker, concurrency, retry, proxy, theme and display settings to their defaults.")
+                }
+
                 Section("About") {
                     LabeledContent("Application", value: "Giga Grabber for iOS")
                     LabeledContent("Engine", value: "MEGA public-link downloader")
@@ -617,6 +671,31 @@ struct SettingsView: View {
                 }
             }
             .navigationTitle("Settings")
+            .fileImporter(isPresented: $isImportingProxyFile,
+                          allowedContentTypes: [.plainText],
+                          allowsMultipleSelection: false) { result in
+                switch result {
+                case .success(let urls):
+                    guard let url = urls.first else { return }
+                    let accessed = url.startAccessingSecurityScopedResource()
+                    defer { if accessed { url.stopAccessingSecurityScopedResource() } }
+                    do {
+                        let contents = try String(contentsOf: url, encoding: .utf8)
+                        let parsed = contents.split(whereSeparator: \.isNewline)
+                            .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
+                            .filter { !$0.isEmpty && !$0.hasPrefix("#") }
+                            .compactMap { ProxyEndpoint.parse($0)?.normalized }
+                        for proxy in parsed where !manager.settings.proxies.contains(proxy) {
+                            manager.settings.proxies.append(proxy)
+                        }
+                        if parsed.isEmpty { showProxyError = true }
+                    } catch {
+                        manager.globalError = "Could not read proxy list: \\(error.localizedDescription)"
+                    }
+                case .failure(let error):
+                    manager.globalError = error.localizedDescription
+                }
+            }
             .onAppear {
                 if manager.settings.proxyMode == .single {
                     proxyInput = manager.settings.proxies.first ?? ""
