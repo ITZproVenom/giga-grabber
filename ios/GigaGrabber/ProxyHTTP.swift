@@ -82,7 +82,7 @@ private final class ProxyAuthenticationDelegate: NSObject, URLSessionTaskDelegat
     func urlSession(_ session: URLSession, task: URLSessionTask,
                     didReceive challenge: URLAuthenticationChallenge,
                     completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
-        if challenge.protectionSpace.isProxy, let credential = endpoint?.credential {
+        if challenge.protectionSpace.isProxy(), let credential = endpoint?.credential {
             completionHandler(.useCredential, credential)
         } else {
             completionHandler(.performDefaultHandling, nil)
@@ -200,7 +200,7 @@ private final class StreamingFileDelegate: NSObject, URLSessionDataDelegate, URL
     func urlSession(_ session: URLSession, task: URLSessionTask,
                     didReceive challenge: URLAuthenticationChallenge,
                     completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
-        if challenge.protectionSpace.isProxy, let credential = endpoint?.credential {
+        if challenge.protectionSpace.isProxy(), let credential = endpoint?.credential {
             completionHandler(.useCredential, credential)
         } else {
             completionHandler(.performDefaultHandling, nil)

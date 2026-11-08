@@ -17,6 +17,7 @@ final class DownloadManager: ObservableObject {
             } else {
                 try? FileManager.default.removeItem(at: sessionURL)
             }
+            schedule()
         }
     }
     @Published var destinationName = "Downloads"
@@ -198,6 +199,10 @@ final class DownloadManager: ObservableObject {
     }
 
     private func schedule() {
+        guard settings.proxyMode == .none || !settings.proxies.isEmpty else {
+            globalError = "Add at least one proxy before using Single or Random proxy mode."
+            return
+        }
         let workerLimit = min(10, max(1, settings.maxWorkers))
         let budget = min(100, max(1, settings.concurrencyBudget))
         while tasks.count < workerLimit {
@@ -282,6 +287,7 @@ final class DownloadManager: ObservableObject {
                         try MegaCrypto.decryptCTRFile(from: encryptedURL, to: plainURL,
                                                       key: decryptionKey, iv: decryptionIV)
                     }.value
+                    if Task.isCancelled { throw CancellationError() }
                     let size = (try FileManager.default.attributesOfItem(atPath: plainURL.path)[.size] as? NSNumber)?.uint64Value ?? 0
                     guard size == item.node.size else {
                         throw URLError(.cannotDecodeContentData, userInfo: [
