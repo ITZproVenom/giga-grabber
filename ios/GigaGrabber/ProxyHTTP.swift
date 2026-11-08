@@ -41,7 +41,12 @@ struct ProxyEndpoint: Hashable {
               let scheme = c.scheme?.lowercased(),
               ["http", "https", "socks5", "socks5h"].contains(scheme),
               let host = c.host, !host.isEmpty else { return nil }
-        let defaultPort = (scheme == "socks5" || scheme == "socks5h") ? 1080 : 8080
+        let defaultPort: Int
+        switch scheme {
+        case "https": defaultPort = 443
+        case "socks5", "socks5h": defaultPort = 1080
+        default: defaultPort = 8080
+        }
         let port = c.port ?? defaultPort
         guard (1...65535).contains(port) else { return nil }
         return ProxyEndpoint(scheme: scheme, host: host, port: port,
