@@ -432,6 +432,13 @@ struct ImportView: View {
                 }
             }
             .navigationTitle("Add download")
+            .onAppear {
+                if let value = initialLink, !value.isEmpty {
+                    link = value
+                    initialLink = nil
+                    Task { await resolve() }
+                }
+            }
             .onChange(of: initialLink) { value in
                 guard let value, !value.isEmpty else { return }
                 link = value

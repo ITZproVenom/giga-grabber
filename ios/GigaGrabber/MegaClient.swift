@@ -359,7 +359,11 @@ enum MegaCrypto {
         }
         let jsonBytes = bytes.dropFirst(4).prefix { $0 != 0 }
         guard let json = try? JSONSerialization.jsonObject(with: Data(jsonBytes)) as? [String: Any],
-              let name = json["n"] as? String else { throw MegaClientError.    static func decryptCTRFile(from encryptedURL: URL, to plainURL: URL,
+              let name = json["n"] as? String else { throw MegaClientError.invalidAttributes }
+        return name
+    }
+
+    static func decryptCTRFile(from encryptedURL: URL, to plainURL: URL,
                                key: Data, iv: Data,
                                chunkSize: Int = 1024 * 1024) throws {
         guard key.count == kCCKeySizeAES128, iv.count == 8 else {
@@ -367,7 +371,7 @@ enum MegaCrypto {
         }
         let fm = FileManager.default
         if fm.fileExists(atPath: plainURL.path) { try fm.removeItem(at: plainURL) }
-        fm.createFile(atPath: plainURL.path, contents: nil)
+        _ = fm.createFile(atPath: plainURL.path, contents: nil)
         let input = try FileHandle(forReadingFrom: encryptedURL)
         let output = try FileHandle(forWritingTo: plainURL)
         defer { try? input.close(); try? output.close() }
@@ -405,9 +409,6 @@ enum MegaCrypto {
             try output.write(contentsOf: decrypted)
         }
         try output.synchronize()
-    }lse
-        }
-        return Data(output)
     }
 }
 
