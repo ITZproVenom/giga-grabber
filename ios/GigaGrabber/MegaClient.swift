@@ -1,5 +1,6 @@
 import Foundation
 import CommonCrypto
+import CoreFoundation
 
 enum MegaClientError: LocalizedError {
     case malformedLink

@@ -6,6 +6,7 @@ struct ContentView: View {
     @StateObject private var manager = DownloadManager()
     @StateObject private var linkRouter = PendingLinkRouter.shared
     @State private var incomingLink: String?
+    @State private var autoQueueIncomingLink = false
     @Environment(\.scenePhase) private var scenePhase
 
     var body: some View {
@@ -13,7 +14,7 @@ struct ContentView: View {
             DownloadsView()
                 .tabItem { Label("Downloads", systemImage: "arrow.down.circle") }
                 .tag(0)
-            ImportView(initialLink: $incomingLink)
+            ImportView(initialLink: $incomingLink, autoQueue: $autoQueueIncomingLink)
                 .tabItem { Label("Add link", systemImage: "plus.circle") }
                 .tag(1)
             SettingsView()
@@ -31,19 +32,23 @@ struct ContentView: View {
             } else {
                 incomingLink = url.absoluteString
             }
+            autoQueueIncomingLink = false
             manager.selectedTab = 1
         }
         .onAppear {
-            if let pending = linkRouter.consumePersistedLink() {
+            if let (pending, autoQueue) = linkRouter.consumePersistedLink() {
                 incomingLink = pending.absoluteString
+                autoQueueIncomingLink = autoQueue
                 manager.selectedTab = 1
             }
         }
         .onChange(of: linkRouter.pendingURL) { url in
             guard let url else { return }
             incomingLink = url.absoluteString
+            autoQueueIncomingLink = linkRouter.pendingAutoQueue
             manager.selectedTab = 1
             linkRouter.pendingURL = nil
+            linkRouter.pendingAutoQueue = false
         }
         .onChange(of: scenePhase) { phase in
             switch phase {
@@ -312,6 +317,7 @@ private struct ImportedGroup: Identifiable {
 struct ImportView: View {
     @EnvironmentObject private var manager: DownloadManager
     @Binding var initialLink: String?
+    @Binding var autoQueue: Bool
     @State private var link = ""
     @State private var files: [ImportedMegaFile] = []
     @State private var selected = Set<String>()
@@ -430,6 +436,7 @@ struct ImportView: View {
                 guard let value, !value.isEmpty else { return }
                 link = value
                 initialLink = nil
+                Task { await resolve() }
             }
             .alert("Unable to load link", isPresented: Binding(
                 get: { errorMessage != nil },
@@ -450,6 +457,16 @@ struct ImportView: View {
             }
             files = loaded
             selected = Set(loaded.map(\.id))
+            if autoQueue {
+                manager.enqueue(loaded)
+                files = []
+                selected = []
+                didResolve = false
+                link = ""
+                autoQueue = false
+                manager.selectedTab = 0
+                return
+            }
             didResolve = true
         } catch {
             errorMessage = error.localizedDescription
