@@ -314,6 +314,7 @@ enum MegaCrypto {
             throw MegaClientError.invalidKey
         }
         var output = Data(count: input.count + kCCBlockSizeAES128)
+        let outputCapacity = output.count
         var moved = 0
         let status = key.withUnsafeBytes { keyBytes in
             input.withUnsafeBytes { inputBytes in
@@ -322,7 +323,7 @@ enum MegaCrypto {
                             CCAlgorithm(kCCAlgorithmAES), CCOptions(kCCOptionECBMode),
                             keyBytes.baseAddress, key.count, nil,
                             inputBytes.baseAddress, input.count,
-                            outputBytes.baseAddress, output.count, &moved)
+                            outputBytes.baseAddress, outputCapacity, &moved)
                 }
             }
         }
@@ -337,6 +338,7 @@ enum MegaCrypto {
             throw MegaClientError.invalidAttributes
         }
         var output = Data(count: encrypted.count + 16)
+        let outputCapacity = output.count
         var moved = 0
         let zeroIV = Data(repeating: 0, count: 16)
         let status = key.withUnsafeBytes { keyBytes in
@@ -346,7 +348,7 @@ enum MegaCrypto {
                         CCCrypt(CCOperation(kCCDecrypt), CCAlgorithm(kCCAlgorithmAES), CCOptions(0),
                                 keyBytes.baseAddress, key.count, ivBytes.baseAddress,
                                 inputBytes.baseAddress, encrypted.count,
-                                outputBytes.baseAddress, output.count, &moved)
+                                outputBytes.baseAddress, outputCapacity, &moved)
                     }
                 }
             }
@@ -395,11 +397,12 @@ enum MegaCrypto {
 
         while let chunk = try input.read(upToCount: chunkSize), !chunk.isEmpty {
             var decrypted = Data(count: chunk.count + kCCBlockSizeAES128)
+            let outputCapacity = decrypted.count
             var moved = 0
             let status = chunk.withUnsafeBytes { inputBytes in
                 decrypted.withUnsafeMutableBytes { outputBytes in
                     CCCryptorUpdate(cryptor, inputBytes.baseAddress, chunk.count,
-                                    outputBytes.baseAddress, decrypted.count, &moved)
+                                    outputBytes.baseAddress, outputCapacity, &moved)
                 }
             }
             guard status == kCCSuccess else {
