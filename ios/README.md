@@ -61,6 +61,20 @@ The proxy-list importer accepts one proxy URL per line in a `.txt` file; blank l
 - `GigaGrabber/Views.swift`: downloads, link import, selection and settings UI
 - `GigaGrabber/Shortcuts.swift`: App Intents and Shortcuts integration
 
+## Tests
+
+The shared Xcode scheme includes an XCTest target covering AES-128 ECB vectors, AES-CTR streaming across chunk boundaries, invalid crypto inputs, proxy URL parsing/default ports, settings normalization, transfer progress, and the session file's no-key persistence rule.
+
+Run the iOS Simulator test suite from the repository root:
+
+```sh
+xcodebuild test \
+  -project ios/GigaGrabber.xcodeproj \
+  -scheme GigaGrabber \
+  -destination 'platform=iOS Simulator,name=iPhone 16,OS=latest' \
+  CODE_SIGNING_ALLOWED=NO
+```
+
 ## License
 
 The upstream project is MIT-licensed. Keep the original `LICENSE` file and copyright notice in redistributed copies and substantial portions.

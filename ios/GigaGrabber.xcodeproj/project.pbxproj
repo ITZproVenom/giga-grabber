@@ -20,7 +20,27 @@
         B00000000000000000000014 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A00000000000000000000014 /* Foundation.framework */; };
         B00000000000000000000015 /* AppIntents.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A00000000000000000000016 /* AppIntents.framework */; };
         B00000000000000000000017 /* Network.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A00000000000000000000018 /* Network.framework */; };
+        B00000000000000000000008 /* MegaCryptoProxyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000020 /* MegaCryptoProxyTests.swift */; };
+        B00000000000000000000019 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A00000000000000000000021 /* XCTest.framework */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+        F00000000000000000000051 /* PBXContainerItemProxy */ = {
+            isa = PBXContainerItemProxy;
+            containerPortal = E00000000000000000000002 /* Project object */;
+            proxyType = 1;
+            remoteGlobalIDString = E00000000000000000000001;
+            remoteInfo = GigaGrabber;
+        };
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXTargetDependency section */
+        F00000000000000000000052 /* PBXTargetDependency */ = {
+            isa = PBXTargetDependency;
+            target = E00000000000000000000001 /* GigaGrabber */;
+            targetProxy = F00000000000000000000051 /* PBXContainerItemProxy */;
+        };
+/* End PBXTargetDependency section */
 
 /* Begin PBXFileReference section */
         A00000000000000000000001 /* App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
@@ -38,6 +58,9 @@
         A00000000000000000000016 /* AppIntents.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppIntents.framework; path = System/Library/Frameworks/AppIntents.framework; sourceTree = SDKROOT; };
         A00000000000000000000018 /* Network.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Network.framework; path = System/Library/Frameworks/Network.framework; sourceTree = SDKROOT; };
         A00000000000000000000015 /* GigaGrabber.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GigaGrabber.app; sourceTree = BUILT_PRODUCTS_DIR; };
+        A00000000000000000000020 /* MegaCryptoProxyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MegaCryptoProxyTests.swift; sourceTree = "<group>"; };
+        A00000000000000000000021 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = System/Library/Frameworks/XCTest.framework; sourceTree = SDKROOT; };
+        A00000000000000000000022 /* GigaGrabberTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GigaGrabberTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +77,12 @@
             );
             runOnlyForDeploymentPostprocessing = 0;
         };
+        C00000000000000000000004 /* GigaGrabberTests Frameworks */ = {
+            isa = PBXFrameworksBuildPhase;
+            buildActionMask = 2147483647;
+            files = ( B00000000000000000000019 /* XCTest.framework in Frameworks */, );
+            runOnlyForDeploymentPostprocessing = 0;
+        };
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -62,6 +91,7 @@
             children = (
                 D00000000000000000000002 /* GigaGrabber */,
                 D00000000000000000000003 /* Frameworks */,
+                D00000000000000000000005 /* GigaGrabberTests */,
                 D00000000000000000000004 /* Products */,
             );
             sourceTree = "<group>";
@@ -90,15 +120,25 @@
                 A00000000000000000000014 /* Foundation.framework */,
                 A00000000000000000000016 /* AppIntents.framework */,
                 A00000000000000000000018 /* Network.framework */,
+                A00000000000000000000021 /* XCTest.framework */,
             );
             name = Frameworks;
             sourceTree = "<group>";
         };
         D00000000000000000000004 /* Products */ = {
             isa = PBXGroup;
-            children = ( A00000000000000000000015 /* GigaGrabber.app */, );
+            children = (
+                A00000000000000000000015 /* GigaGrabber.app */,
+                A00000000000000000000022 /* GigaGrabberTests.xctest */,
+            );
             name = Products;
             sourceTree = "<group>";
+        };
+        D00000000000000000000005 /* GigaGrabberTests */ = {
+            isa = PBXGroup;
+            path = GigaGrabberTests;
+            sourceTree = "<group>";
+            children = ( A00000000000000000000020 /* MegaCryptoProxyTests.swift */, );
         };
 /* End PBXGroup section */
 
@@ -118,6 +158,21 @@
             productReference = A00000000000000000000015 /* GigaGrabber.app */;
             productType = "com.apple.product-type.application";
         };
+        E00000000000000000000003 /* GigaGrabberTests */ = {
+            isa = PBXNativeTarget;
+            buildConfigurationList = F00000000000000000000004 /* Build configuration list for PBXNativeTarget "GigaGrabberTests" */;
+            buildPhases = (
+                C00000000000000000000005 /* GigaGrabberTests Sources */,
+                C00000000000000000000004 /* GigaGrabberTests Frameworks */,
+                C00000000000000000000006 /* GigaGrabberTests Resources */,
+            );
+            buildRules = ();
+            dependencies = ( F00000000000000000000052 /* PBXTargetDependency */, );
+            name = GigaGrabberTests;
+            productName = GigaGrabberTests;
+            productReference = A00000000000000000000022 /* GigaGrabberTests.xctest */;
+            productType = "com.apple.product-type.bundle.unit-test";
+        };
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -130,6 +185,10 @@
                     E00000000000000000000001 = {
                         CreatedOnToolsVersion = 16.0;
                     };
+                    E00000000000000000000003 = {
+                        CreatedOnToolsVersion = 16.0;
+                        TestTargetID = E00000000000000000000001;
+                    };
                 };
             };
             buildConfigurationList = F00000000000000000000001 /* Build configuration list for PBXProject "GigaGrabber" */;
@@ -141,12 +200,21 @@
             productRefGroup = D00000000000000000000004 /* Products */;
             projectDirPath = "";
             projectRoot = "";
-            targets = ( E00000000000000000000001 /* GigaGrabber */, );
+            targets = (
+                E00000000000000000000001 /* GigaGrabber */,
+                E00000000000000000000003 /* GigaGrabberTests */,
+            );
         };
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
         C00000000000000000000003 /* Resources */ = {
+            isa = PBXResourcesBuildPhase;
+            buildActionMask = 2147483647;
+            files = ();
+            runOnlyForDeploymentPostprocessing = 0;
+        };
+        C00000000000000000000006 /* GigaGrabberTests Resources */ = {
             isa = PBXResourcesBuildPhase;
             buildActionMask = 2147483647;
             files = ();
@@ -167,6 +235,12 @@
                 B00000000000000000000006 /* Views.swift in Sources */,
                 B00000000000000000000007 /* Shortcuts.swift in Sources */,
             );
+            runOnlyForDeploymentPostprocessing = 0;
+        };
+        C00000000000000000000005 /* GigaGrabberTests Sources */ = {
+            isa = PBXSourcesBuildPhase;
+            buildActionMask = 2147483647;
+            files = ( B00000000000000000000008 /* MegaCryptoProxyTests.swift in Sources */, );
             runOnlyForDeploymentPostprocessing = 0;
         };
 /* End PBXSourcesBuildPhase section */
@@ -194,6 +268,7 @@
             isa = XCBuildConfiguration;
             buildSettings = {
                 CODE_SIGN_STYLE = Automatic;
+                ENABLE_TESTABILITY = YES;
                 CURRENT_PROJECT_VERSION = 1;
                 GENERATE_INFOPLIST_FILE = NO;
                 INFOPLIST_FILE = GigaGrabber/Info.plist;
@@ -229,6 +304,44 @@
             };
             name = Release;
         };
+        F00000000000000000000031 /* Debug GigaGrabberTests */ = {
+            isa = XCBuildConfiguration;
+            buildSettings = {
+                BUNDLE_LOADER = "$(TEST_HOST)";
+                CODE_SIGN_STYLE = Automatic;
+                GENERATE_INFOPLIST_FILE = YES;
+                IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+                LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+                PRODUCT_BUNDLE_IDENTIFIER = com.itzprovenom.gigagrabber.tests;
+                PRODUCT_NAME = "$(TARGET_NAME)";
+                SDKROOT = iphoneos;
+                SKIP_INSTALL = YES;
+                SWIFT_VERSION = 5.0;
+                SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+                TARGETED_DEVICE_FAMILY = "1,2";
+                TEST_HOST = "$(BUILT_PRODUCTS_DIR)/GigaGrabber.app/GigaGrabber";
+            };
+            name = Debug;
+        };
+        F00000000000000000000032 /* Release GigaGrabberTests */ = {
+            isa = XCBuildConfiguration;
+            buildSettings = {
+                BUNDLE_LOADER = "$(TEST_HOST)";
+                CODE_SIGN_STYLE = Automatic;
+                GENERATE_INFOPLIST_FILE = YES;
+                IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+                LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+                PRODUCT_BUNDLE_IDENTIFIER = com.itzprovenom.gigagrabber.tests;
+                PRODUCT_NAME = "$(TARGET_NAME)";
+                SDKROOT = iphoneos;
+                SKIP_INSTALL = YES;
+                SWIFT_VERSION = 5.0;
+                SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+                TARGETED_DEVICE_FAMILY = "1,2";
+                TEST_HOST = "$(BUILT_PRODUCTS_DIR)/GigaGrabber.app/GigaGrabber";
+            };
+            name = Release;
+        };
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -246,6 +359,15 @@
             buildConfigurations = (
                 F00000000000000000000021 /* Debug target configuration */,
                 F00000000000000000000022 /* Release target configuration */,
+            );
+            defaultConfigurationIsVisible = 0;
+            defaultConfigurationName = Release;
+        };
+        F00000000000000000000004 /* Build configuration list for PBXNativeTarget "GigaGrabberTests" */ = {
+            isa = XCConfigurationList;
+            buildConfigurations = (
+                F00000000000000000000031 /* Debug GigaGrabberTests */,
+                F00000000000000000000032 /* Release GigaGrabberTests */,
             );
             defaultConfigurationIsVisible = 0;
             defaultConfigurationName = Release;

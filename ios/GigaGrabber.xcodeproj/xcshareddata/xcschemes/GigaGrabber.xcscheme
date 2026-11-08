@@ -27,6 +27,17 @@
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher"
       shouldUseLaunchSchemeArgsEnv = "YES">
+      <Testables>
+         <TestableReference skipped = "NO" parallelizable = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "E00000000000000000000003"
+               BuildableName = "GigaGrabberTests.xctest"
+               BlueprintName = "GigaGrabberTests"
+               ReferencedContainer = "container:GigaGrabber.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+      </Testables>
    </TestAction>
    <LaunchAction
       buildConfiguration = "Debug"
